@@ -20,7 +20,7 @@ const LogIn = () => {
     const [ disabled , setDisabled] = useState(true)
 
     // Validate Form
-    const ValidateLogin = (name ,value) => {
+    const validateLogin = (name ,value) => {
         Yup.reach(LoginSchema , name)
         .validate(value)
         .then( () => setFormErrors( {...formErrors , [name]: ''} ) )
@@ -30,7 +30,7 @@ const LogIn = () => {
     const handleChange = e => {
         const { name , value } = e.target
         setLogIn({ ...login , [name]: value })
-        ValidateLogin( name , value)
+        validateLogin( name , value)
     }
 
     // Enable Button
