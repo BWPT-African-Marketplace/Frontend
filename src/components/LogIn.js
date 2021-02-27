@@ -1,19 +1,19 @@
 import React , {useState , useEffect} from 'react'
+import axios from 'axios'
 import * as Yup from 'yup'
 
 
 const LoginSchema = Yup.object().shape({
-    email:Yup  
+    username:Yup  
         .string()
-        .email()
-        .required('Email is Required'),
+        .required('Username is Required'),
     password:Yup
         .string()
         .required('Password is Required')
 })
 
-const newForm = { email:'', password:'' }
-const loginErrors = { email:'', password:'' }
+const newForm = { username:'', password:'' }
+const loginErrors = { username:'', password:'' }
 const LogIn = () => {
     const [login , setLogIn] = useState(newForm)
     const [formErrors , setFormErrors] = useState(loginErrors)
@@ -41,25 +41,29 @@ const LogIn = () => {
     },[login] )
 
     // Axios POST request
-
+    const loginUser = (login) => {
+        axios.post('https://african-marketplace-oz.herokuapp.com/api/login', login)
+        .then(res => console.log('success', res))
+        .catch(err => console.log('error' , err))
+    }
     // Submit Form
     const handleSubmit = e => {
         e.preventDefault()
+        loginUser(login)
         console.log(login)
         setLogIn(newForm)
     }
     return(
         <form onSubmit={handleSubmit}>
             {/* FORM ERRORS */}
-            <div>{formErrors.email}</div>
+            <div>{formErrors.username}</div>
             <div>{formErrors.password}</div>
             {/* EMAIL */}
-             <label htmlFor='email'>Email</label>
+             <label htmlFor='username'>Usernamel</label>
                 <input 
-                    name='email'
-                    type='email'
-                    placeholder='email@yourbusiness.com'
-                    value={login.email}
+                    name='username'
+                    type='text'
+                    value={login.username}
                     onChange={handleChange}
                     />
                 {/* PASSWORD */}
