@@ -1,7 +1,9 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import * as Yup from 'yup'
 import Reference from '../components/MarketReference'
+import CreateItem from '../components/CreateItem'
+import { v4 as uuidv4 } from 'uuid';
 const ItemSchema = Yup.object().shape({
     location:Yup
     .string()
@@ -15,20 +17,22 @@ const ItemSchema = Yup.object().shape({
     price:Yup
     .string()
     .required('Price Is Required'),
-    money:Yup
+    value:Yup
     .string()
-    .oneOf(['SHILLING','FRANC','USD','BITCOIN'] , 'Currency Is Required')
+    .oneOf(['KES','UGX','TZS', 'RWF' ,'BITCOIN'] , 'Currency Is Required')
+    .required()
 })
-const newItem = {id:Math.random() * 1000, location:'', itemName:'', description:'', price:'', money:''}
-const itemErrors = {location:'', itemName:'', description:'', price:'', money:''}
+const newItem = {id: uuidv4(), location:'', itemName:'', description:'', price:'', value:''}
+const itemErrors = {location:'', itemName:'', description:'', price:'', value:''}
 
 
 
-const Profile = () => {
+const Profile = ({data}) => {
     const [listing , setListing] = useState(newItem)
     const [formErrors , setFormErrors] = useState(itemErrors)
-    const [shopItems , setShopItems] = useState([])
-
+    const [shopItems , setShopItems] = useState(data)
+    const [ disabled , setDisabled] = useState(true)
+    console.log(shopItems)
     const validateItem = (name ,value) => {
         Yup.reach(ItemSchema , name)
         .validate(value)
@@ -37,10 +41,19 @@ const Profile = () => {
     }
 
     const handleChange = e => {
+        e.preventDefault()
         const { name , value } = e.target
         setListing({ ...listing , [name]: value })
        validateItem(name , value)
     }
+
+    // Enable Button
+    useEffect( () => {
+        ItemSchema.isValid(listing)
+        .then(isValid => setDisabled(!isValid))
+        .catch( err => console.log(err))
+    },[listing] )
+
     const postNewListing = item => {
         axios.post("https://reqres.in/api/order", item)
         .then( res => {
@@ -59,13 +72,13 @@ const Profile = () => {
 
         <section>
             <h2>Welcome Back!</h2>
-            <Reference/>
+            <Reference key = {uuidv4()}/>
             <h5>Create A New Listing</h5>
             <form onSubmit={handleSubmit}>
                 <div>{formErrors.location}</div>
                 <div>{formErrors.itemName}</div>
                 <div>{formErrors.price}</div>
-                <div>{formErrors.money}</div>
+                <div>{formErrors.value}</div>
                 <label htmlFor='location'>Location</label>
                 <select
                     name='location'
@@ -100,29 +113,21 @@ const Profile = () => {
                     className='price'
                 />
                 <select
-                    name='money'
-                    value={listing.money}
+                    name='value'
+                    value={listing.value}
                     onChange={handleChange}
                     >
                     <option value=''>--Select Currency--</option>
-                    <option value='SHILLING'>Shilling</option>
-                    <option value='FRANC'>Franc</option>
-                    <option value='USD'>USD</option>
+                    <option value='KES'>Kenyan Shilling</option>
+                    <option value='UGX'>Ugandan Shilling</option>
+                    <option value='TZS'>Tanzanian Shilling</option>
+                    <option value='RWF'>Rwandan Franc</option>
                     <option value='BITCOIN'>BitCoin</option>
                 </select>
                 </label>
-                <button>Add Item</button>
+                <button disabled = {disabled}>Add Item</button>
             </form>
-            {shopItems.map( item => {
-                return (
-                    <div key = {item.id}>
-                    <p>Location: {item.location}</p>
-                    <p>Item: {item.itemName}</p>
-                    <p>Price: {item.price}  <span>{item.money}</span></p>
-                    <p>{item.description}</p>
-                </div>
-                )
-            } )}
+            {shopItems.map( item => <CreateItem item = {item} /> )}
         
         </section>
     )

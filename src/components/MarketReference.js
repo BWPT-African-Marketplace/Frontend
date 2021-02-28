@@ -38,7 +38,7 @@ const Reference = () => {
                
             }
                return(
-                <article>
+                <article key = {Math.random() * 100}>
                     <h3>{title} Products</h3>
                     <ul>
                         {list.map( product => {
