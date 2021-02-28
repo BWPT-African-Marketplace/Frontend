@@ -1,7 +1,8 @@
 import Nav from './components/Nav'
-import SignUp from './components/SignUp'
-import LogIn from './components/LogIn'
-import Profile from './components/Profile'
+import Footer from './components/Footer'
+import SignUp from './pages/SignUp'
+import LogIn from './pages/LogIn'
+import Profile from './pages/Profile'
 import { Route, Switch } from 'react-router-dom'
 import './App.css';
 
@@ -22,6 +23,7 @@ function App() {
           </Route>
         </Switch>
      </main>
+     <Footer/>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
-
+import Reference from '../components/MarketReference'
 const ItemSchema = Yup.object().shape({
     location:Yup
     .string()
@@ -59,6 +59,7 @@ const Profile = () => {
 
         <section>
             <h2>Welcome Back!</h2>
+            <Reference/>
             <h5>Create A New Listing</h5>
             <form onSubmit={handleSubmit}>
                 <div>{formErrors.location}</div>
@@ -118,7 +119,6 @@ const Profile = () => {
                     <p>Location: {item.location}</p>
                     <p>Item: {item.itemName}</p>
                     <p>Price: {item.price}  <span>{item.money}</span></p>
-                   
                     <p>{item.description}</p>
                 </div>
                 )
