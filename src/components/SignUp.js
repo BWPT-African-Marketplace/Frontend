@@ -49,7 +49,6 @@ const SignUp = () => {
     },[signUp] )
 
 
-    // Object of Returned Form
 
     // Axios POST request
     const register = (signUp) => {

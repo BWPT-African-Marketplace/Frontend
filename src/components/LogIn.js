@@ -1,6 +1,7 @@
 import React , {useState , useEffect} from 'react'
-import axios from 'axios'
+import {axiosWithAuth} from '../utils/axiosWithAuth'
 import * as Yup from 'yup'
+import { useHistory } from 'react-router-dom'
 
 
 const LoginSchema = Yup.object().shape({
@@ -40,10 +41,16 @@ const LogIn = () => {
         .catch( err => console.log(err))
     },[login] )
 
+    const history = useHistory();
     // Axios POST request
     const loginUser = (login) => {
-        axios.post('https://african-marketplace-oz.herokuapp.com/api/login', login)
-        .then(res => console.log('success', res))
+        axiosWithAuth().post('https://african-marketplace-oz.herokuapp.com/api/login', login)
+        .then(res => {
+            console.log('success', res)
+            localStorage.setItem('token' , res.data.token)
+            localStorage.setItem('token' , res.data.user_id)
+            history.push(`/profile/${res.data.user_id}`)
+        })
         .catch(err => console.log('error' , err))
     }
     // Submit Form
