@@ -8,20 +8,14 @@ const SignUpSchema = Yup.object().shape({
         .string()
         .min( 3 , 'First Name Must Be At Least 3 Characters')
         .required('Name Required'),
-    business:Yup
-        .string(),
-    email:Yup
-        .string()
-        .email('Email Must Be In Correct Format')
-        .required('Email Is Required'),
     password: Yup
         .string()
         .required('Password Is Required')
         .min(5 , 'Password must be at least 5 Characters')
 })
 
-const newForm = {username:'', business:'', email:'', password:''}
-const signupErrors = {username:'', email:'', password:''}
+const newForm = {username:'', password:''}
+const signupErrors = {username:'',  password:''}
 const SignUp = () => {
     const [signUp , setSignUp] = useState(newForm)
     const [formErrors , setFormErrors] = useState(signupErrors)
@@ -48,21 +42,17 @@ const SignUp = () => {
         .catch( err => console.log(err))
     },[signUp] )
 
-
+useEffect( () => {
+    axios.get('https://african-marketplace-oz.herokuapp.com')
+.then(res => console.log(res))
+},[] )
 
     // Axios POST request
     const register = (signUp) => {
-        axios.post('https://african-marketplace-oz.herokuapp.com/api/register', {
-            headers:{
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            },
-            body: {
-                username: signUp.username,
-                password: signUp.password
-            }
-        })
+        axios.post('https://african-marketplace-oz.herokuapp.com/api/register', signUp
+    )
         .then(res => console.log('success', res))
-        .catch(err => console.log('error' , err))
+        .catch(err => console.log('error' , err.message))
     }
     // Submit Form
     const handleSubmit = e => {
@@ -87,24 +77,6 @@ const SignUp = () => {
                     onChange={handleChange}
                     />
                
-                {/* Business NAME */}
-                <label htmlFor='business'>Business Name</label>
-                <input 
-                    name='business'
-                    type='text'
-                    placeholder='Business'
-                    value={signUp.business}
-                    onChange={handleChange}
-                    />
-                {/* EMAIL */}
-                <label htmlFor='email'>Email</label>
-                <input 
-                    name='email'
-                    type='email'
-                    placeholder='email@yourbusiness.com'
-                    value={signUp.email}
-                    onChange={handleChange}
-                    />
                 {/* PASSWORD */}
                 <label htmlFor='password'>Create Password</label>
                 <input 
