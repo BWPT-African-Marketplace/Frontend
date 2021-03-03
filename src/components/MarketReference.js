@@ -1,4 +1,15 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+
+const Products = styled.section`
+    display:flex;
+    flex-flow: row wrap;
+    justify-content:space-evenly;
+    align-items:baseline;
+    li {
+        list-style:none;
+    }
+`
 
 const animalList = ['Eggs' , 'Milk' , 'Processed Honey' , 'Tilapia', 'Beef', 'Goat Meat', 'Pork', 'Chicken']
 const beanList = ['Candian Beans', 'Mwitemania Beans', 'Rosecoco Beans', 'Black Beans', 'Dolichos', 'Green Gram', 'Kidney Beans' , 'Mixed Beans']
@@ -17,7 +28,7 @@ const Reference = () => {
     const [allProducts] = useState([ animalProducts , beanProducts , cerealProducts, fruitProducts , vegetableProducts , rootProducts ])
     
     return(
-       <section>
+       <Products>
 
            {allProducts.map(( list , index) => {
                let title = index
@@ -49,7 +60,7 @@ const Reference = () => {
                )
            } )}
 
-       </section>
+       </Products>
     )
 }
 
