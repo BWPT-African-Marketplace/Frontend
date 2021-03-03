@@ -1,4 +1,5 @@
 import React, { useState , useEffect} from 'react'
+import FormStyle from '../components/FormStyle'
 import axios from 'axios'
 import * as Yup from 'yup'
 
@@ -62,13 +63,14 @@ useEffect( () => {
         setSignUp(newForm)
     }
     return(
-        <section>
+        <FormStyle>
+            <h2>SIGN UP</h2>
             <form onSubmit={handleSubmit}>
-                <div>{formErrors.username}</div>
-                <div>{formErrors.email}</div>
-                <div>{formErrors.password}</div>
+                <div className='err'>{formErrors.username}</div>
+                <div className='err'>{formErrors.email}</div>
+                <div className='err'>{formErrors.password}</div>
                 {/* USERNAME */}
-                <label htmlFor='username'>User Name</label>
+                <label htmlFor='username'>Username</label>
                 <input 
                     name='username'
                     type='text'
@@ -88,7 +90,7 @@ useEffect( () => {
                     />
                 <button disabled={disabled}>Sign Up</button>
             </form>
-        </section>
+        </FormStyle>
     )
 }
 

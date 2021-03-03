@@ -1,5 +1,6 @@
 import React , {useState , useEffect} from 'react'
 import {axiosWithAuth} from '../utils/axiosWithAuth'
+import FormStyle from '../components/FormStyle'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
 
@@ -61,12 +62,14 @@ const LogIn = () => {
         setLogIn(newForm)
     }
     return(
+        <FormStyle>
+            <h2>LOG IN</h2>
         <form onSubmit={handleSubmit}>
             {/* FORM ERRORS */}
             <div>{formErrors.username}</div>
             <div>{formErrors.password}</div>
-            {/* EMAIL */}
-             <label htmlFor='username'>Usernamel</label>
+            {/* USERNAME */}
+             <label htmlFor='username'>Username</label>
                 <input 
                     name='username'
                     type='text'
@@ -84,6 +87,7 @@ const LogIn = () => {
                 <button disabled={disabled}>Log In</button>
 
         </form>
+        </FormStyle>
     )
 }
 

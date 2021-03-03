@@ -24,8 +24,8 @@ const HomePage = styled.section`
             font-size:1.2rem;
 
             h1{
-                font-size:1.8rem;
-                font-weight: 300;
+                font-size:1.6rem;
+                font-weight: 700;
             }
 
             p{
@@ -45,6 +45,13 @@ const HomePage = styled.section`
             left: 1.6rem;
         }
     }
+    h3{
+        font-size: 1.5rem;
+    }
+    .collection{
+        display:flex;
+        justify-content:space-around;
+    }
 
 `
 
@@ -63,7 +70,9 @@ const Home = ({data}) => {
                 </section>
             </article>
             <h3>Current Items Available</h3>
-       { allItems.map( item => <CreateItem item = {item} /> )}
+            <div className='collection'>
+                { allItems.map( item => <CreateItem item = {item} /> )}
+            </div>
         </HomePage>
     )
 }
