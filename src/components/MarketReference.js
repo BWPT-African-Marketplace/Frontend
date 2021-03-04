@@ -5,10 +5,25 @@ const Products = styled.section`
     display:flex;
     flex-flow: row wrap;
     justify-content:space-evenly;
-    align-items:baseline;
-    li {
-        list-style:none;
+    align-items:stretch;
+    width:90%;
+    margin:auto;
+    h3{
+        font-size:1.3rem;
+        font-weight:700;
+        color:#E84C3D;
     }
+    article{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+    p{
+        margin:0.3rem auto;
+        width:90%;
+        font-size:1.1rem;
+    }
+   
 `
 
 const animalList = ['Eggs' , 'Milk' , 'Processed Honey' , 'Tilapia', 'Beef', 'Goat Meat', 'Pork', 'Chicken']
@@ -51,11 +66,11 @@ const Reference = () => {
                return(
                 <article key = {Math.random() * 100}>
                     <h3>{title} Products</h3>
-                    <ul>
+                   
                         {list.map( product => {
-                        return  ( <li> {product} | {Math.floor(Math.random() * 10) + 1}.00 </li>)
+                        return  ( <p> {product} | {Math.floor(Math.random() * 10) + 1}.00 </p>)
                         } )}
-                    </ul>
+                  
                 </article>
                )
            } )}

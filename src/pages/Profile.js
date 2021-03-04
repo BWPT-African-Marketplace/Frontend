@@ -1,9 +1,52 @@
 import axios from 'axios'
 import React, { useState , useEffect} from 'react'
 import * as Yup from 'yup'
+
 import Reference from '../components/MarketReference'
 import CreateItem from '../components/CreateItem'
+import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
+
+const ProfileStyle = styled.section`
+    display:flex;
+    flex-flow:column nowrap;
+    form {
+        display:flex;
+        flex-direction:column;
+        width:35%;
+        margin:3rem auto;
+        font-size:1.2rem;
+        text-align:left;
+        select , input{
+            height:2rem;
+            margin:0.5rem 0;
+        }
+        .price{
+            height:1rem;
+            width:2rem;
+            margin: 0 0.5rem;
+        }
+        button{
+            width: 30%;
+            height: 2rem;
+        }
+    }
+    h2{
+        background-color:#2A2A2A;
+        color:#f3f3f3;
+        width:100%;
+        font-size:1.8rem;
+        padding: 0.5rem 0;
+        text-align:center;
+    }
+    .collection{
+        display:flex;
+        justify-content:space-around;
+        margin:1.5rem auto;
+    }
+`
+
+
 const ItemSchema = Yup.object().shape({
     location:Yup
     .string()
@@ -15,7 +58,7 @@ const ItemSchema = Yup.object().shape({
     description:Yup
     .string(),
     price:Yup
-    .string()
+    .number('Must be a number')
     .required('Price Is Required'),
     value:Yup
     .string()
@@ -69,12 +112,9 @@ const Profile = ({data}) => {
         
     }
     return (
-
-        <section>
-            <h2>Welcome Back!</h2>
-            <Reference key = {uuidv4()}/>
-            <h5>Create A New Listing</h5>
+        <ProfileStyle>
             <form onSubmit={handleSubmit}>
+            <h2>Create A New Listing</h2>
                 <div>{formErrors.location}</div>
                 <div>{formErrors.itemName}</div>
                 <div>{formErrors.price}</div>
@@ -127,9 +167,14 @@ const Profile = ({data}) => {
                 </label>
                 <button disabled = {disabled}>Add Item</button>
             </form>
+            <h2>Current Market Prices</h2>
+            <Reference key = {uuidv4()}/>
+            <div className='collection'>
             {shopItems.map( item => <CreateItem item = {item} /> )}
+        </div>
+        </ProfileStyle>
         
-        </section>
+
     )
 }
 

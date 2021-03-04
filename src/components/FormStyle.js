@@ -5,7 +5,7 @@ const FormStyle = styled.section`
     margin: 3rem auto;
     h2{
         font-size: 1.8rem;
-        color: #E84C3D;
+        color: #2A2A2A;
         font-weight:700;
         text-align:left;
     }
@@ -17,7 +17,6 @@ const FormStyle = styled.section`
 
         label{
             color:#f3f3f3;
-           
             padding: 1rem 0;
         }
         input{

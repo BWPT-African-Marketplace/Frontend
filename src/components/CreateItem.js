@@ -10,7 +10,7 @@ width:20%;
 margin: 1rem auto;
 padding:0; 
     .name {
-        background-color: #E84C3D;
+        background-color: #2A2A2A;
         width:100%;
         padding: 1rem 0.2rem;
         margin:0;
