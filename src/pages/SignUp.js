@@ -43,7 +43,7 @@ const SignUp = () => {
         formTL.from( passwordRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease: "power2.out" })
         formTL.from( buttonRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease: "power2.out" })
 
-        },[formTL] )
+        },[] )
      // Validate Form
      const validateSignUp = (name ,value) => {
         Yup.reach(SignUpSchema , name)
@@ -52,6 +52,7 @@ const SignUp = () => {
         .catch( err => setFormErrors( {...formErrors , [name]: err.errors[0]} ) )
     }
     // Change Form Value
+    
     const handleChange = e => {
         const { name , value } = e.target
         setSignUp({ ...signUp , [name]: value })
