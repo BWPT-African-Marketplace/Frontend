@@ -106,7 +106,7 @@ const Profile = ({data}) => {
        profileTL.from( marketPriceRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.2, ease: "power2.out" })
        profileTL.from( collectionRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.2, ease: "power2.out"})
 
-        },[profileTL] )
+        },[] )
 
     console.log(shopItems)
     const validateItem = (name ,value) => {
