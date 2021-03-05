@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+import {gsap} from 'gsap'
 
 const Products = styled.section`
     display:flex;
@@ -42,6 +43,9 @@ const Reference = () => {
     const [rootProducts] = useState(rootsList)
     const [allProducts] = useState([ animalProducts , beanProducts , cerealProducts, fruitProducts , vegetableProducts , rootProducts ])
     
+    const marketPriceRef = useRef(null)
+    gsap.from(marketPriceRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.5 })
+
     return(
        <Products>
 
@@ -64,7 +68,7 @@ const Reference = () => {
                
             }
                return(
-                <article key = {Math.random() * 100}>
+                <article ref={marketPriceRef} key = {Math.random() * 100}>
                     <h3>{title} Products</h3>
                    
                         {list.map( product => {

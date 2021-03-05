@@ -11,9 +11,10 @@ import { useState } from 'react'
 
 function App() {
   const [dumbData] = useState(Data)
+
   return (
     <div className="App">
-     <Nav/>
+     <Nav />
      <main>
         <Switch>
           <Route path='/signup'>

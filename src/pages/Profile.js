@@ -1,7 +1,7 @@
 import axios from 'axios'
-import React, { useState , useEffect} from 'react'
+import React, { useState , useEffect, useRef} from 'react'
 import * as Yup from 'yup'
-
+import { gsap } from 'gsap'
 import Reference from '../components/MarketReference'
 import CreateItem from '../components/CreateItem'
 import styled from 'styled-components'
@@ -75,6 +75,39 @@ const Profile = ({data}) => {
     const [formErrors , setFormErrors] = useState(itemErrors)
     const [shopItems , setShopItems] = useState(data)
     const [ disabled , setDisabled] = useState(true)
+
+    const profileTL = gsap.timeline()
+    const formRef = useRef(null)
+    const titleRef = useRef(null)
+    const locationLabelRef = useRef(null)
+    const locationRef = useRef(null)
+    const itemLabelRef = useRef(null)
+    const itemRef = useRef(null)
+    const desLabelRef = useRef(null)
+    const desRef = useRef(null)
+    const priceRef = useRef(null)
+    const buttonRef = useRef(null)
+    const marketRef = useRef(null)
+    const marketPriceRef = useRef(null)
+    const collectionRef = useRef(null)
+
+    useEffect( () => {
+       profileTL.from( titleRef.current , { duration: 0.5 , opacity : 0, x:-100, ease:"power2.out"})
+       profileTL.from( formRef.current , { duration: 0.5 , opacity : 0, x:-100 ,  delay:0.1, ease:"power2.out" })
+       profileTL.from( locationLabelRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out"})
+       profileTL.from( locationRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( itemLabelRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( itemRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( desLabelRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( desRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( priceRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( buttonRef.current , { duration: 0.125 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+       profileTL.from( marketRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.1, ease: "power2.out" })
+       profileTL.from( marketPriceRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.2, ease: "power2.out" })
+       profileTL.from( collectionRef.current , { duration: 0.5 , opacity : 0, x:-50, delay:0.2, ease: "power2.out"})
+
+        },[profileTL] )
+
     console.log(shopItems)
     const validateItem = (name ,value) => {
         Yup.reach(ItemSchema , name)
@@ -113,14 +146,15 @@ const Profile = ({data}) => {
     }
     return (
         <ProfileStyle>
-            <form onSubmit={handleSubmit}>
-            <h2>Create A New Listing</h2>
+            <form ref={formRef} onSubmit={handleSubmit}>
+            <h2 ref={titleRef}>Create A New Listing</h2>
                 <div>{formErrors.location}</div>
                 <div>{formErrors.itemName}</div>
                 <div>{formErrors.price}</div>
                 <div>{formErrors.value}</div>
-                <label htmlFor='location'>Location</label>
+                <label ref={locationLabelRef} htmlFor='location'>Location</label>
                 <select
+                    ref={locationRef}
                     name='location'
                     value={listing.location}
                     onChange={handleChange}>
@@ -130,48 +164,51 @@ const Profile = ({data}) => {
                     <option value='Tanzania'>Tanzania</option>
                     <option value='Uganda'>Uganda</option>
                 </select>
-                <label htmlFor='itemName'>Item</label>
+                <label ref={itemLabelRef} htmlFor='itemName'>Item</label>
                 <input
+                    ref={itemRef}
                     name='itemName'
                     type='text'
                     value={listing.item}
                     onChange={handleChange}
                 />
-                <label htmlFor='description'>Description</label>
+                <label ref={desLabelRef} htmlFor='description'>Description</label>
                 <textarea
+                    ref={desRef}
                     name='description'
                     type='text'
                     value={listing.description}
                     onChange={handleChange}
                 />
-                <label htmlFor='price'>Price
-                <input
-                    name='price'
-                    type='text'
-                    value={listing.price}
-                    onChange={handleChange}
-                    className='price'
-                />
-                <select
-                    name='value'
-                    value={listing.value}
-                    onChange={handleChange}
-                    >
-                    <option value=''>--Select Currency--</option>
-                    <option value='KES'>Kenyan Shilling</option>
-                    <option value='UGX'>Ugandan Shilling</option>
-                    <option value='TZS'>Tanzanian Shilling</option>
-                    <option value='RWF'>Rwandan Franc</option>
-                    <option value='BITCOIN'>BitCoin</option>
-                </select>
+                <label ref={priceRef} htmlFor='price'>
+                    Price
+                    <input
+                        name='price'
+                        type='text'
+                        value={listing.price}
+                        onChange={handleChange}
+                        className='price'
+                    />
+                    <select
+                        name='value'
+                        value={listing.value}
+                        onChange={handleChange}
+                        >
+                        <option value=''>--Select Currency--</option>
+                        <option value='KES'>Kenyan Shilling</option>
+                        <option value='UGX'>Ugandan Shilling</option>
+                        <option value='TZS'>Tanzanian Shilling</option>
+                        <option value='RWF'>Rwandan Franc</option>
+                        <option value='BITCOIN'>BitCoin</option>
+                    </select>
                 </label>
-                <button disabled = {disabled}>Add Item</button>
+                <button ref={buttonRef} disabled = {disabled}>Add Item</button>
             </form>
-            <h2>Current Market Prices</h2>
-            <Reference key = {uuidv4()}/>
-            <div className='collection'>
-            {shopItems.map( item => <CreateItem item = {item} /> )}
-        </div>
+            <h2 ref={marketRef}>Current Market Prices</h2>
+            <div ref={marketPriceRef}><Reference key = {uuidv4()}/></div>
+            <div ref={collectionRef} className='collection'>
+                {shopItems.map( item => <CreateItem item = {item} /> )}
+            </div>
         </ProfileStyle>
         
 

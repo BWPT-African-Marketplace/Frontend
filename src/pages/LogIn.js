@@ -1,9 +1,9 @@
-import React , {useState , useEffect} from 'react'
+import React , {useState , useEffect , useRef} from 'react'
 import {axiosWithAuth} from '../utils/axiosWithAuth'
 import FormStyle from '../components/FormStyle'
 import * as Yup from 'yup'
 import { useHistory } from 'react-router-dom'
-
+import { gsap } from 'gsap'
 
 const LoginSchema = Yup.object().shape({
     username:Yup  
@@ -16,10 +16,31 @@ const LoginSchema = Yup.object().shape({
 
 const newForm = { username:'', password:'' }
 const loginErrors = { username:'', password:'' }
+
 const LogIn = () => {
     const [login , setLogIn] = useState(newForm)
     const [formErrors , setFormErrors] = useState(loginErrors)
     const [ disabled , setDisabled] = useState(true)
+
+    const formTL = gsap.timeline();
+    const formRef = useRef(null)
+    const titleRef = useRef(null)
+    const userLabelRef = useRef(null)
+    const userInputRef = useRef(null)
+    const passwordLabelRef = useRef(null)
+    const passwordRef = useRef(null)
+    const buttonRef = useRef(null)
+    
+    useEffect( () => {
+        formTL.from( titleRef.current , { duration: 0.5 , opacity : 0, x:-100, ease:"power2.out"})
+        formTL.from( formRef.current , { duration: 0.5 , opacity : 0, x:-100 ,  delay:0.1, ease:"power2.out" })
+        formTL.from( userLabelRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+        formTL.from( userInputRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+        formTL.from( passwordLabelRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+        formTL.from( passwordRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+        formTL.from( buttonRef.current , { duration: 0.25 , opacity : 0, x:-50, delay:0.1, ease:"power2.out" })
+
+        },[formTL] )
 
     // Validate Form
     const validateLogin = (name ,value) => {
@@ -62,29 +83,31 @@ const LogIn = () => {
         setLogIn(newForm)
     }
     return(
-        <FormStyle>
-            <h2>LOG IN</h2>
-        <form onSubmit={handleSubmit}>
+        <FormStyle >
+            <h2 ref={titleRef}>LOG IN</h2>
+        <form ref={formRef} onSubmit={handleSubmit}>
             {/* FORM ERRORS */}
             <div>{formErrors.username}</div>
             <div>{formErrors.password}</div>
             {/* USERNAME */}
-             <label htmlFor='username'>Username</label>
+             <label ref={userLabelRef} htmlFor='username'>Username</label>
                 <input 
+                    ref={userInputRef}
                     name='username'
                     type='text'
                     value={login.username}
                     onChange={handleChange}
                     />
                 {/* PASSWORD */}
-                <label htmlFor='password'>Password</label>
+                <label ref={passwordLabelRef} htmlFor='password'>Password</label>
                 <input 
+                    ref={passwordRef}
                     name='password'
                     type='password'
                     value={login.password}
                     onChange={handleChange}
                     />
-                <button disabled={disabled}>Log In</button>
+                <button ref={buttonRef} disabled={disabled}>Log In</button>
 
         </form>
         </FormStyle>

@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
+
 const Header = styled.header`
     display:flex;
     background-color:#E84C3D;
@@ -34,7 +35,7 @@ const Nav = () => {
         <Header>
             <h1>African MarketPlace</h1>
             <nav>
-                <NavLink to='/'>Home</NavLink>
+                <NavLink to='/' >Home</NavLink>
                 <NavLink to='/signup'>Sign Up</NavLink>
                 <NavLink className='lastLink' to='/login'>Log In</NavLink>
             </nav>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState , useRef } from 'react'
 import { Link } from 'react-router-dom'
 import banner  from '../banner.jpg'
 import CreateItem from '../components/CreateItem'
 import styled from 'styled-components'
+import { gsap } from 'gsap'
 
 const HomePage = styled.section`
     article {
@@ -55,11 +56,25 @@ const HomePage = styled.section`
 
 `
 
+
 const Home = ({data}) => {
+    const homeTL = gsap.timeline();
+    const articleRef = useRef(null)
+    const titleRef = useRef(null)
+    const collectionRef = useRef(null)
+    const itemRef = useRef(null)
     const [allItems] = useState(data)
+
+    useEffect( () => {
+        homeTL.from( articleRef.current , { duration: 0.5 , opacity : 0, x:-100})
+        homeTL.from( titleRef.current , { duration: 0.5 , opacity : 0, x:-100 ,  delay:0.1 })
+        homeTL.from( collectionRef.current , { duration: 0.5 , opacity : 0, x:-100, delay:0.2 })
+        homeTL.to( itemRef.current , {opacity: 1 , stagger:0.5 })
+
+        },[homeTL] )
     return(
         <HomePage>
-            <article>
+            <article ref={articleRef}>
                 <img src={banner} alt='Taryn Elliott from Pexels' ></img>
                 <figcaption>Photo by Taryn Elliott from Pexels</figcaption>
                 <section className='main-text'>
@@ -69,12 +84,12 @@ const Home = ({data}) => {
                     <Link to='/signup'>Get Started!</Link>
                 </section>
             </article>
-            <h3>Current Items Available</h3>
-            <div className='collection'>
-                { allItems.map( item => <CreateItem item = {item} /> )}
+            <h3 ref={titleRef}>Current Items Available</h3>
+            <div ref={collectionRef} className='collection'>
+                { allItems.map( item => <CreateItem ref={itemRef} item = {item} /> )}
             </div>
         </HomePage>
     )
 }
 
-export default Home
+export default Home;
